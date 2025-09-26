@@ -94,19 +94,20 @@ composer init
 # 3. Instalar SlimSeed Framework
 composer require slimseed/framework
 
-# 4. ¡Listo! El framework se configura automáticamente
-# Se crean automáticamente: .env, docker-compose.yml, public/index.php, etc.
+# 4. Instalación simple (opcional)
+php vendor/slimseed/framework/tools/simple-installer.php
 
-# 5. Configurar variables (opcional)
+# 5. Configurar variables
+cp .env.example .env
 nano .env
 
-# 6. Levantar contenedores
-docker-compose up -d
-
-# 7. Ejecutar migraciones
+# 6. Ejecutar migraciones
 composer run migrate
 
-# 8. Visitar: http://localhost:8081
+# 7. Iniciar servidor
+php -S localhost:8000 -t public
+
+# 8. Visitar: http://localhost:8000
 ```
 
 ### **🔧 Desarrollo del Framework (Para Contribuidores)**
@@ -151,6 +152,7 @@ APP_DEBUG=true
 APP_NAME="Mi Proyecto API"
 
 # Base de datos
+DB_DRIVER=mysql
 DB_HOST=mysql
 DB_PORT=3306
 DB_NAME=mi_proyecto
@@ -181,6 +183,7 @@ APP_DEBUG=true
 APP_NAME="Slim Seed Project"
 
 # Base de datos
+DB_DRIVER=mysql
 DB_HOST=mysql
 DB_PORT=3306
 DB_NAME=slim_seed
@@ -500,6 +503,91 @@ Después de la instalación, puedes:
 - ✅ Crear migraciones personalizadas
 - ✅ Modificar rutas y controladores
 - ✅ Agregar middleware personalizado
+
+### **🗄️ Soporte Multi-Base de Datos**
+
+SlimSeed Framework soporta múltiples bases de datos:
+
+#### **MySQL (Por defecto)**
+```env
+DB_DRIVER=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_NAME=mi_proyecto
+DB_USER=mi_usuario
+DB_PASS=mi_contraseña
+```
+
+#### **PostgreSQL**
+```env
+DB_DRIVER=pgsql
+DB_HOST=postgres
+DB_PORT=5432
+DB_NAME=mi_proyecto
+DB_USER=mi_usuario
+DB_PASS=mi_contraseña
+```
+
+#### **SQLite**
+```env
+DB_DRIVER=sqlite
+DB_NAME=data/mi_proyecto
+# No requiere DB_HOST, DB_PORT, DB_USER, DB_PASS
+```
+
+#### **Detección Automática**
+El framework detecta automáticamente el tipo de BD por:
+- Variable `DB_DRIVER`
+- Puerto (5432 = PostgreSQL, 3306 = MySQL)
+- Host (contiene "postgres" = PostgreSQL)
+- Variable `DATABASE_URL`
+
+### **🐳 Opciones de Instalación**
+
+#### **Con Docker (Recomendado)**
+- ✅ Entorno aislado y consistente
+- ✅ Fácil configuración de servicios
+- ✅ No requiere instalación local de BD
+- ✅ Ideal para desarrollo y producción
+
+```bash
+# Instalación automática con Docker
+composer require slimseed/framework
+docker-compose up -d
+composer run migrate
+# Listo en http://localhost:8081
+```
+
+#### **Sin Docker (Local)**
+- ✅ Más ligero y rápido
+- ✅ Acceso directo a archivos
+- ✅ Ideal para desarrollo simple
+- ✅ Requiere BD local instalada
+
+```bash
+# Instalación local
+composer require slimseed/framework
+# Configurar .env con BD local
+composer run migrate
+php -S localhost:8000 -t public
+# Listo en http://localhost:8000
+```
+
+#### **SQLite (Sin Servidor)**
+- ✅ No requiere servidor de BD
+- ✅ Archivo de base de datos local
+- ✅ Ideal para prototipos y testing
+- ✅ Funciona sin Docker
+
+```bash
+# Configurar .env
+DB_DRIVER=sqlite
+DB_NAME=data/mi_proyecto
+
+# Ejecutar
+composer run migrate
+php -S localhost:8000 -t public
+```
 
 ## 📖 Guías
 

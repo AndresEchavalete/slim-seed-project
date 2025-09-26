@@ -160,6 +160,7 @@ APP_DEBUG=true
 APP_NAME="Mi Proyecto SlimSeed"
 
 # Base de datos
+DB_DRIVER=mysql
 DB_HOST=mysql
 DB_PORT=3306
 DB_NAME=slim_seed

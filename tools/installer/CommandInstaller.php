@@ -43,19 +43,50 @@ class CommandInstaller extends Command
         $helper = $this->getHelper('question');
         
         $projectName = $helper->ask($input, $output, new Question('Nombre del proyecto: '));
+        
+        // Preguntar tipo de base de datos
+        $dbType = $io->choice('Tipo de base de datos', ['mysql', 'postgresql', 'sqlite'], 'mysql');
+        
         $dbName = $helper->ask($input, $output, new Question('Nombre de la base de datos [slim_seed]: ', 'slim_seed'));
-        $dbUser = $helper->ask($input, $output, new Question('Usuario de BD [slim_user]: ', 'slim_user'));
-        $dbPass = $helper->ask($input, $output, new Question('Contraseña de BD [slim_pass]: ', 'slim_pass'));
+        
+        $dbUser = 'slim_user';
+        $dbPass = 'slim_pass';
+        $dbHost = 'mysql';
+        $dbPort = '3306';
+        
+        if ($dbType !== 'sqlite') {
+            $dbUser = $helper->ask($input, $output, new Question('Usuario de BD [slim_user]: ', 'slim_user'));
+            $dbPass = $helper->ask($input, $output, new Question('Contraseña de BD [slim_pass]: ', 'slim_pass'));
+            
+            if ($dbType === 'postgresql') {
+                $dbHost = 'postgres';
+                $dbPort = '5432';
+            }
+        }
+        
         $adminEmail = $helper->ask($input, $output, new Question('Email del administrador: '));
         $notificationType = $io->choice('Tipo de notificaciones', ['email', 'slack'], 'email');
+        
+        // Preguntar si quiere usar Docker
+        $useDocker = $io->confirm('¿Usar Docker para desarrollo? (recomendado)', true);
+        
+        // Si no usa Docker, preguntar configuración local
+        if (!$useDocker) {
+            $dbHost = $helper->ask($input, $output, new Question('Host de la base de datos [localhost]: ', 'localhost'));
+            $dbPort = $helper->ask($input, $output, new Question("Puerto de la base de datos [{$dbPort}]: ", $dbPort));
+        }
 
         return [
             'project_name' => $projectName,
+            'db_type' => $dbType,
             'db_name' => $dbName,
             'db_user' => $dbUser,
             'db_pass' => $dbPass,
+            'db_host' => $dbHost,
+            'db_port' => $dbPort,
             'admin_email' => $adminEmail,
-            'notification_type' => $notificationType
+            'notification_type' => $notificationType,
+            'use_docker' => $useDocker
         ];
     }
 
@@ -90,9 +121,13 @@ class CommandInstaller extends Command
         $this->createEnvFile($projectInfo);
         $io->text('  ✓ Creado: .env');
         
-        // Crear docker-compose.yml
-        $this->createDockerCompose($projectInfo);
-        $io->text('  ✓ Creado: docker-compose.yml');
+        // Crear docker-compose.yml solo si se usa Docker
+        if ($projectInfo['use_docker']) {
+            $this->createDockerCompose($projectInfo);
+            $io->text('  ✓ Creado: docker-compose.yml');
+        } else {
+            $io->text('  ⏭️  Saltado: docker-compose.yml (Docker no seleccionado)');
+        }
         
         // Crear index.php
         $this->createIndexFile();
@@ -101,6 +136,12 @@ class CommandInstaller extends Command
         // Crear README.md
         $this->createReadme($projectInfo);
         $io->text('  ✓ Creado: README.md');
+        
+        // Crear archivos de configuración local si no usa Docker
+        if (!$projectInfo['use_docker']) {
+            $this->createLocalConfigFiles($projectInfo);
+            $io->text('  ✓ Creados: archivos de configuración local');
+        }
     }
 
     private function createEnvFile(array $projectInfo): void
@@ -112,8 +153,9 @@ APP_DEBUG=true
 APP_NAME="{$projectInfo['project_name']}"
 
 # Base de datos
-DB_HOST=mysql
-DB_PORT=3306
+DB_DRIVER={$projectInfo['db_type']}
+DB_HOST={$projectInfo['db_host']}
+DB_PORT={$projectInfo['db_port']}
 DB_NAME={$projectInfo['db_name']}
 DB_USER={$projectInfo['db_user']}
 DB_PASS={$projectInfo['db_pass']}
@@ -133,8 +175,32 @@ ENV;
     private function createDockerCompose(array $projectInfo): void
     {
         $projectName = strtolower(str_replace(' ', '_', $projectInfo['project_name']));
+        $dbType = $projectInfo['db_type'];
         
-        $dockerContent = <<<YAML
+        // Seleccionar plantilla según el tipo de BD
+        $templateFile = match($dbType) {
+            'postgresql' => 'templates/docker-compose.postgresql.yml',
+            'sqlite' => 'templates/docker-compose.sqlite.yml',
+            default => 'templates/docker-compose.mysql.yml'
+        };
+        
+        if (file_exists($templateFile)) {
+            $dockerContent = file_get_contents($templateFile);
+            $dockerContent = str_replace('{{PROJECT_NAME}}', $projectName, $dockerContent);
+            $dockerContent = str_replace('{{DB_NAME}}', $projectInfo['db_name'], $dockerContent);
+            $dockerContent = str_replace('{{DB_USER}}', $projectInfo['db_user'], $dockerContent);
+            $dockerContent = str_replace('{{DB_PASS}}', $projectInfo['db_pass'], $dockerContent);
+        } else {
+            // Fallback a MySQL si no existe la plantilla
+            $dockerContent = $this->getDefaultDockerCompose($projectName, $projectInfo);
+        }
+
+        file_put_contents('docker-compose.yml', $dockerContent);
+    }
+    
+    private function getDefaultDockerCompose(string $projectName, array $projectInfo): string
+    {
+        return <<<YAML
 version: '3.8'
 
 services:
@@ -151,6 +217,7 @@ services:
       - mysql
       - redis
     environment:
+      - DB_DRIVER={$projectInfo['db_type']}
       - DB_HOST=mysql
       - DB_PORT=3306
       - DB_NAME={$projectInfo['db_name']}
@@ -179,8 +246,6 @@ services:
 volumes:
   mysql_data:
 YAML;
-
-        file_put_contents('docker-compose.yml', $dockerContent);
     }
 
     private function createIndexFile(): void
@@ -332,22 +397,70 @@ PHP;
             ['Configuración', 'Valor'],
             [
                 ['Nombre del Proyecto', $projectInfo['project_name']],
+                ['Tipo de BD', $projectInfo['db_type']],
                 ['Base de Datos', $projectInfo['db_name']],
                 ['Usuario BD', $projectInfo['db_user']],
+                ['Host BD', $projectInfo['db_host']],
+                ['Puerto BD', $projectInfo['db_port']],
                 ['Email Admin', $projectInfo['admin_email']],
                 ['Notificaciones', $projectInfo['notification_type']],
             ]
         );
 
         $io->section('🚀 Próximos Pasos');
-        $io->listing([
-            'Levantar contenedores: docker-compose up -d',
-            'Ejecutar migraciones: composer run migrate',
-            'Visitar la aplicación: http://localhost:8081',
-            'Probar health check: http://localhost:8081/health',
-            'Revisar documentación: docs/API.md'
-        ]);
+        
+        if ($projectInfo['use_docker']) {
+            $io->listing([
+                'Levantar contenedores: docker-compose up -d',
+                'Ejecutar migraciones: composer run migrate',
+                'Visitar la aplicación: http://localhost:8081',
+                'Probar health check: http://localhost:8081/health',
+                'Revisar documentación: docs/API.md'
+            ]);
+        } else {
+            $steps = [
+                'Configurar base de datos local',
+                'Ejecutar migraciones: composer run migrate',
+                'Iniciar servidor: php -S localhost:8000 -t public',
+                'Visitar la aplicación: http://localhost:8000',
+                'Probar health check: http://localhost:8000/health',
+                'Revisar documentación: docs/API.md'
+            ];
+            
+            if ($projectInfo['db_type'] === 'sqlite') {
+                $steps[0] = 'Base de datos SQLite lista (archivo en data/)';
+            }
+            
+            $io->listing($steps);
+        }
 
-        $io->note('💡 Tip: Usa "docker-compose exec app bash" para acceder al contenedor');
+        if ($projectInfo['use_docker']) {
+            $io->note('💡 Tip: Usa "docker-compose exec app bash" para acceder al contenedor');
+        } else {
+            $io->note('💡 Tip: Usa "php -S localhost:8000 -t public" para servidor de desarrollo');
+        }
+    }
+
+    /**
+     * Crea archivos de configuración para instalación local
+     */
+    private function createLocalConfigFiles(array $projectInfo): void
+    {
+        // Crear .htaccess
+        if (file_exists('templates/.htaccess')) {
+            copy('templates/.htaccess', '.htaccess');
+        }
+
+        // Crear nginx.conf
+        if (file_exists('templates/nginx.conf')) {
+            copy('templates/nginx.conf', 'nginx.conf');
+        }
+
+        // Crear directorio data para SQLite
+        if ($projectInfo['db_type'] === 'sqlite') {
+            if (!is_dir('data')) {
+                mkdir('data', 0755, true);
+            }
+        }
     }
 }

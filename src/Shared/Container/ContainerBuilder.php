@@ -55,6 +55,7 @@ class ContainerBuilder
             // === CONFIGURACIONES ===
             'database.config' => \DI\factory(function () {
                 return new DatabaseConfig([
+                    'driver' => $_ENV['DB_DRIVER'] ?? 'mysql',
                     'host' => $_ENV['DB_HOST'] ?? 'mysql',
                     'port' => $_ENV['DB_PORT'] ?? '3306',
                     'database' => $_ENV['DB_NAME'] ?? 'slim_seed',
@@ -77,6 +78,7 @@ class ContainerBuilder
             // === INFRAESTRUCTURA ===
             'doctrine.config' => \DI\factory(function () {
                 return new DoctrineConfig([
+                    'driver' => $_ENV['DB_DRIVER'] ?? 'mysql',
                     'host' => $_ENV['DB_HOST'] ?? 'mysql',
                     'port' => $_ENV['DB_PORT'] ?? '3306',
                     'database' => $_ENV['DB_NAME'] ?? 'slim_seed',

@@ -39,27 +39,9 @@
         }
     },
     "scripts": {
-        "migrate": "php scripts/migrate.php",
-        "reset-db": "php scripts/reset-db.php",
-        "migrate:status": "php migrations.php status",
-        "migrate:generate": "php migrations.php generate",
-        "migrate:execute": "php migrations.php execute",
-        "migrate:latest": "php migrations.php latest",
-        "post-install-cmd": [
-            "SlimSeed\\Installer\\Installer::postInstall"
-        ],
-        "post-update-cmd": [
-            "SlimSeed\\Installer\\Installer::postUpdate"
-        ]
-    },
-    "extra": {
-        "installer-name": "SlimSeed Framework",
-        "installer-paths": {
-            "config/": ["slimseed/framework"],
-            "public/": ["slimseed/framework"],
-            "src/": ["slimseed/framework"],
-            "migrations/": ["slimseed/framework"],
-            "scripts/": ["slimseed/framework"]
-        }
+        "migrate": "php vendor/bin/doctrine-migrations migrate",
+        "migrate:status": "php vendor/bin/doctrine-migrations status",
+        "migrate:generate": "php vendor/bin/doctrine-migrations generate",
+        "migrate:execute": "php vendor/bin/doctrine-migrations execute"
     }
 }

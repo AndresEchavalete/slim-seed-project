@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: {{PROJECT_NAME}}_app
+    ports:
+      - "8081:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      - DB_DRIVER=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME={{DB_NAME}}
+      - DB_USER={{DB_USER}}
+      - DB_PASS={{DB_PASS}}
+
+  mysql:
+    image: mysql:8.0
+    container_name: {{PROJECT_NAME}}_mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: {{DB_NAME}}
+      MYSQL_USER: {{DB_USER}}
+      MYSQL_PASSWORD: {{DB_PASS}}
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis:7-alpine
+    container_name: {{PROJECT_NAME}}_redis
+    ports:
+      - "6380:6379"
+
+volumes:
+  mysql_data:
