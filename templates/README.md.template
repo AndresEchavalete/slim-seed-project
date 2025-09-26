@@ -1,0 +1,86 @@
+# {{PROJECT_NAME}}
+
+Proyecto creado con **SlimSeed Framework** - Arquitectura Hexagonal + DDD + Doctrine ORM
+
+## 🚀 Inicio Rápido
+
+### 1. Configurar Variables de Entorno
+```bash
+cp .env.example .env
+# Edita .env con tus configuraciones
+```
+
+### 2. Levantar Contenedores
+```bash
+docker-compose up -d
+```
+
+### 3. Ejecutar Migraciones
+```bash
+composer run migrate
+```
+
+### 4. ¡Listo!
+Visita: http://localhost:8081
+
+## 📚 Documentación
+
+- [API Documentation](docs/API.md)
+- [Arquitectura](docs/architecture.md)
+- [Desarrollo](docs/development.md)
+
+## 🏗️ Estructura del Proyecto
+
+```
+src/
+├── Domain/                    # Capa de Dominio
+│   ├── Entities/              # Entidades de negocio
+│   ├── ValueObjects/          # Objetos de valor
+│   ├── Services/              # Puertos (Interfaces)
+│   └── Repositories/          # Puertos (Interfaces)
+├── Application/               # Capa de Aplicación
+│   ├── UseCases/              # Casos de uso
+│   ├── DTOs/                  # Data Transfer Objects
+│   └── Services/              # Servicios de aplicación
+├── Infrastructure/            # Adaptadores
+│   ├── Services/              # Implementaciones
+│   ├── External/              # Servicios externos
+│   ├── Persistence/           # Repositorios Doctrine
+│   └── Config/                # Configuraciones
+├── Presentation/              # Capa de Presentación
+│   ├── Controllers/           # Controladores HTTP
+│   ├── Middleware/            # Middleware
+│   └── Routes/                # Definición de rutas
+└── Shared/                    # Capa Compartida
+    ├── Container/             # Configuración DI
+    └── Exceptions/            # Excepciones
+```
+
+## 🛠️ Comandos Útiles
+
+```bash
+# Migraciones
+composer run migrate
+composer run reset-db
+composer run migrate:status
+
+# Desarrollo
+docker-compose exec app bash
+docker-compose logs -f app
+```
+
+## 🎯 Características
+
+- ✅ Arquitectura Hexagonal
+- ✅ Domain Driven Design (DDD)
+- ✅ Inyección de Dependencias
+- ✅ Repository Pattern
+- ✅ Doctrine ORM
+- ✅ Docker Ready
+- ✅ API REST
+- ✅ Health Check
+- ✅ Notificaciones (Email/Slack)
+
+---
+
+**Desarrollado con ❤️ usando SlimSeed Framework**

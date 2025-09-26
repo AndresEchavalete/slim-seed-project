@@ -1,7 +1,15 @@
 {
-    "name": "slimseed/project",
-    "description": "Proyecto semilla Slim Framework con DDD y arquitectura hexagonal",
-    "type": "project",
+    "name": "slimseed/framework",
+    "description": "Framework Slim con DDD y arquitectura hexagonal - Instalable via Composer",
+    "type": "library",
+    "keywords": ["slim", "framework", "ddd", "hexagonal", "architecture", "doctrine", "php"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "SlimSeed Team",
+            "email": "team@slimseed.com"
+        }
+    ],
     "require": {
         "php": ">=8.2",
         "slim/slim": "^4.12",
@@ -36,6 +44,22 @@
         "migrate:status": "php migrations.php status",
         "migrate:generate": "php migrations.php generate",
         "migrate:execute": "php migrations.php execute",
-        "migrate:latest": "php migrations.php latest"
+        "migrate:latest": "php migrations.php latest",
+        "post-install-cmd": [
+            "SlimSeed\\Installer\\Installer::postInstall"
+        ],
+        "post-update-cmd": [
+            "SlimSeed\\Installer\\Installer::postUpdate"
+        ]
+    },
+    "extra": {
+        "installer-name": "SlimSeed Framework",
+        "installer-paths": {
+            "config/": ["slimseed/framework"],
+            "public/": ["slimseed/framework"],
+            "src/": ["slimseed/framework"],
+            "migrations/": ["slimseed/framework"],
+            "scripts/": ["slimseed/framework"]
+        }
     }
 }

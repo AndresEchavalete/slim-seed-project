@@ -1,8 +1,8 @@
-# 🚀 Slim Seed Project - Arquitectura Hexagonal + DDD + Doctrine ORM
+# 🚀 SlimSeed Framework - Arquitectura Hexagonal + DDD + Doctrine ORM
 
-Proyecto semilla completo con **Slim Framework + DDD + Arquitectura Hexagonal + Doctrine ORM** listo para producción.
+**Framework PHP reutilizable** con **Slim Framework + DDD + Arquitectura Hexagonal + Doctrine ORM** listo para instalar en cualquier proyecto.
 
-> **Namespace:** `SlimSeed\` - Estructura limpia y profesional para migración futura a Laravel.
+> **Instalable via Composer:** `composer require slimseed/framework` - Estructura profesional y escalable.
 
 [![PHP Version](https://img.shields.io/badge/php-8.2+-blue.svg)](https://php.net)
 [![Slim Framework](https://img.shields.io/badge/slim-4.15-green.svg)](https://slimframework.com)
@@ -81,24 +81,46 @@ src/
 
 ## 🛠️ Instalación
 
-### **Requisitos**
-- Docker & Docker Compose
-- Git
+### **Como Paquete de Composer (Recomendado)**
 
-### **Instalación Rápida**
+```bash
+# 1. Crear nuevo proyecto
+mkdir mi-proyecto-slimseed
+cd mi-proyecto-slimseed
+
+# 2. Inicializar Composer
+composer init
+
+# 3. Instalar SlimSeed Framework
+composer require slimseed/framework
+
+# 4. ¡Listo! El framework se configura automáticamente
+# 5. Levantar contenedores
+docker-compose up -d
+
+# 6. Ejecutar migraciones
+composer run migrate
+
+# 7. Visitar: http://localhost:8081
+```
+
+### **Desarrollo del Framework**
 
 ```bash
 # 1. Clonar el repositorio
 git clone <repository-url>
 cd slim-seed-project
 
-# 2. Levantar contenedores
+# 2. Instalar dependencias
+composer install
+
+# 3. Levantar contenedores
 docker-compose up -d
 
-# 3. Ejecutar migraciones
-docker-compose exec -T app bash -c "cd /var/www/html && php scripts/migrate.php"
+# 4. Ejecutar migraciones
+composer run migrate
 
-# 4. ¡Listo! La API está en http://localhost:8081
+# 5. ¡Listo! La API está en http://localhost:8081
 ```
 
 ### **Verificar Instalación**
@@ -374,7 +396,55 @@ curl -X POST http://localhost:8081/api/users/authenticate \
   -d '{"email":"test@example.com","password":"password123"}'
 ```
 
+## 📦 Uso del Paquete
+
+### **Instalación en Nuevo Proyecto**
+
+```bash
+# Crear proyecto
+mkdir mi-api
+cd mi-api
+composer init
+
+# Instalar SlimSeed Framework
+composer require slimseed/framework
+
+# Configurar (automático)
+# Editar .env según necesidades
+# docker-compose up -d
+# composer run migrate
+```
+
+### **Comandos Disponibles**
+
+```bash
+# Migraciones
+composer run migrate              # Ejecutar migraciones
+composer run reset-db             # Resetear BD
+composer run migrate:status       # Estado de migraciones
+
+# Instalación
+composer run slimseed:install     # Re-ejecutar instalador
+```
+
+### **Estructura Creada**
+
+```
+mi-proyecto/
+├── .env                          # Variables de entorno
+├── docker-compose.yml            # Configuración Docker
+├── public/index.php              # Punto de entrada
+├── src/                          # Código fuente del framework
+├── migrations/                   # Migraciones de BD
+└── vendor/slimseed/framework/    # Paquete instalado
+```
+
 ## 📖 Guías
+
+### **Instalación y Uso**
+- [Guía de Instalación](docs/INSTALLATION.md)
+- [Ejemplo de Uso](examples/quick-start.md)
+- [API Documentation](docs/API.md)
 
 ### **Desarrollo**
 - [Guía de Desarrollo](docs/development.md)
