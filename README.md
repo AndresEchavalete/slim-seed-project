@@ -81,12 +81,12 @@ src/
 
 ## 🛠️ Instalación
 
-### **Como Paquete de Composer (Recomendado)**
+### **📦 Como Paquete de Composer (Para Usuarios)**
 
 ```bash
 # 1. Crear nuevo proyecto
-mkdir mi-proyecto-slimseed
-cd mi-proyecto-slimseed
+mkdir mi-api
+cd mi-api
 
 # 2. Inicializar Composer
 composer init
@@ -95,20 +95,25 @@ composer init
 composer require slimseed/framework
 
 # 4. ¡Listo! El framework se configura automáticamente
-# 5. Levantar contenedores
+# Se crean automáticamente: .env, docker-compose.yml, public/index.php, etc.
+
+# 5. Configurar variables (opcional)
+nano .env
+
+# 6. Levantar contenedores
 docker-compose up -d
 
-# 6. Ejecutar migraciones
+# 7. Ejecutar migraciones
 composer run migrate
 
-# 7. Visitar: http://localhost:8081
+# 8. Visitar: http://localhost:8081
 ```
 
-### **Desarrollo del Framework**
+### **🔧 Desarrollo del Framework (Para Contribuidores)**
 
 ```bash
 # 1. Clonar el repositorio
-git clone <repository-url>
+git clone https://github.com/AndresEchavalete/slim-seed-project.git
 cd slim-seed-project
 
 # 2. Instalar dependencias
@@ -120,7 +125,7 @@ docker-compose up -d
 # 4. Ejecutar migraciones
 composer run migrate
 
-# 5. ¡Listo! La API está en http://localhost:8081
+# 5. ¡Listo! El framework está en http://localhost:8081
 ```
 
 ### **Verificar Instalación**
@@ -135,13 +140,40 @@ curl http://localhost:8081/health
 
 ## 🔧 Configuración
 
-### **Puertos del Sistema**
+### **📦 Para Usuarios del Paquete**
+
+El archivo `.env` se crea automáticamente al instalar. Puedes editarlo según tus necesidades:
+
+```env
+# Aplicación
+APP_ENV=development
+APP_DEBUG=true
+APP_NAME="Mi Proyecto API"
+
+# Base de datos
+DB_HOST=mysql
+DB_PORT=3306
+DB_NAME=mi_proyecto
+DB_USER=mi_usuario
+DB_PASS=mi_contraseña
+
+# Notificaciones
+NOTIFICATION_TYPE=email  # email | slack
+ADMIN_EMAIL=admin@mi-proyecto.com
+SLACK_WEBHOOK=https://hooks.slack.com/...
+
+# Logging
+LOG_LEVEL=debug
+```
+
+### **🔧 Para Desarrolladores del Framework**
+
+**Puertos del Sistema:**
 - **API**: http://localhost:8081
 - **MySQL**: localhost:3307
 - **Redis**: localhost:6380
 
-### **Variables de Entorno**
-
+**Variables de Entorno:**
 ```env
 # Aplicación
 APP_ENV=development
@@ -366,6 +398,20 @@ docker-compose exec -T app bash -c "cd /var/www/html && php scripts/reset-db.php
 
 ### **Comandos de Desarrollo**
 
+#### **📦 Para Usuarios del Paquete**
+```bash
+# Migraciones
+composer run migrate              # Ejecutar migraciones
+composer run reset-db             # Resetear BD
+composer run migrate:status       # Estado de migraciones
+
+# Docker
+docker-compose up -d              # Levantar contenedores
+docker-compose down               # Detener contenedores
+docker-compose logs -f app        # Ver logs
+```
+
+#### **🔧 Para Desarrolladores del Framework**
 ```bash
 # Entrar al contenedor
 docker-compose exec app bash
@@ -398,24 +444,30 @@ curl -X POST http://localhost:8081/api/users/authenticate \
 
 ## 📦 Uso del Paquete
 
-### **Instalación en Nuevo Proyecto**
+### **🚀 Instalación Rápida**
 
 ```bash
-# Crear proyecto
+# 1. Crear proyecto
 mkdir mi-api
 cd mi-api
 composer init
 
-# Instalar SlimSeed Framework
+# 2. Instalar SlimSeed Framework
 composer require slimseed/framework
 
-# Configurar (automático)
-# Editar .env según necesidades
-# docker-compose up -d
-# composer run migrate
+# 3. ¡Listo! Se configura automáticamente
+# Se crean: .env, docker-compose.yml, public/index.php, etc.
+
+# 4. Levantar contenedores
+docker-compose up -d
+
+# 5. Ejecutar migraciones
+composer run migrate
+
+# 6. Visitar: http://localhost:8081
 ```
 
-### **Comandos Disponibles**
+### **⚙️ Comandos Disponibles**
 
 ```bash
 # Migraciones
@@ -427,37 +479,47 @@ composer run migrate:status       # Estado de migraciones
 composer run slimseed:install     # Re-ejecutar instalador
 ```
 
-### **Estructura Creada**
+### **📁 Estructura Creada**
 
 ```
 mi-proyecto/
-├── .env                          # Variables de entorno
-├── docker-compose.yml            # Configuración Docker
-├── public/index.php              # Punto de entrada
-├── src/                          # Código fuente del framework
-├── migrations/                   # Migraciones de BD
+├── .env                          # Variables de entorno (creado automáticamente)
+├── docker-compose.yml            # Configuración Docker (creado automáticamente)
+├── public/index.php              # Punto de entrada (creado automáticamente)
+├── README.md                     # Documentación del proyecto (creado automáticamente)
+├── migrations/                   # Migraciones de BD (creado automáticamente)
+├── config/                       # Configuraciones (creado automáticamente)
 └── vendor/slimseed/framework/    # Paquete instalado
 ```
 
+### **🎯 Personalización**
+
+Después de la instalación, puedes:
+- ✅ Editar `.env` para configurar variables
+- ✅ Agregar nuevas entidades en `src/`
+- ✅ Crear migraciones personalizadas
+- ✅ Modificar rutas y controladores
+- ✅ Agregar middleware personalizado
+
 ## 📖 Guías
 
-### **Instalación y Uso**
-- [Guía de Instalación](docs/INSTALLATION.md)
-- [Ejemplo de Uso](examples/quick-start.md)
-- [API Documentation](docs/API.md)
+### **📦 Para Usuarios del Paquete**
+- [Guía de Instalación](docs/INSTALLATION.md) - Cómo instalar y usar el paquete
+- [Ejemplo de Uso](examples/quick-start.md) - Tutorial completo paso a paso
+- [API Documentation](docs/API.md) - Documentación de endpoints
 
-### **Desarrollo**
-- [Guía de Desarrollo](docs/development.md)
-- [Arquitectura Hexagonal](docs/architecture.md)
-- [Patrones DDD](docs/ddd-patterns.md)
+### **🔧 Para Desarrolladores del Framework**
+- [Guía de Desarrollo](docs/development.md) - Desarrollo del framework
+- [Arquitectura Hexagonal](docs/architecture.md) - Explicación de la arquitectura
+- [Patrones DDD](docs/ddd-patterns.md) - Patrones de Domain Driven Design
 
-### **Despliegue**
-- [Docker Production](docs/docker-production.md)
-- [Configuración de Servidor](docs/server-setup.md)
+### **🚀 Despliegue**
+- [Docker Production](docs/docker-production.md) - Despliegue con Docker
+- [Configuración de Servidor](docs/server-setup.md) - Configuración de servidor
 
-### **Contribución**
-- [Guía de Contribución](docs/contributing.md)
-- [Estándares de Código](docs/coding-standards.md)
+### **🤝 Contribución**
+- [Guía de Contribución](docs/contributing.md) - Cómo contribuir al proyecto
+- [Estándares de Código](docs/coding-standards.md) - Estándares de código
 
 ## 🎯 Beneficios de esta Arquitectura
 
