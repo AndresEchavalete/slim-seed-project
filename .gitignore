@@ -34,3 +34,6 @@ docker-compose.override.yml
 
 # Migraciones generadas
 migrations/Version*.php
+
+# Directorio de test
+test-installation/
