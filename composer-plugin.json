@@ -1,0 +1,16 @@
+{
+    "name": "slimseed/framework-installer",
+    "description": "Instalador automático para SlimSeed Framework",
+    "type": "composer-plugin",
+    "require": {
+        "composer-plugin-api": "^2.0"
+    },
+    "extra": {
+        "class": "SlimSeed\\Composer\\InstallerPlugin"
+    },
+    "autoload": {
+        "psr-4": {
+            "SlimSeed\\Composer\\": "src/Composer/"
+        }
+    }
+}
