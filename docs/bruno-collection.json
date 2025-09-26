@@ -1,0 +1,473 @@
+{
+  "version": "1",
+  "name": "Slim Seed Project API",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ],
+  "folders": [
+    {
+      "id": "folder-1",
+      "name": "🏠 Públicos",
+      "items": [
+        {
+          "id": "req-1",
+          "name": "Bienvenida",
+          "type": "http",
+          "method": "GET",
+          "url": "{{baseUrl}}/",
+          "headers": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        {
+          "id": "req-2",
+          "name": "Health Check",
+          "type": "http",
+          "method": "GET",
+          "url": "{{baseUrl}}/health",
+          "headers": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        {
+          "id": "req-3",
+          "name": "Status API",
+          "type": "http",
+          "method": "GET",
+          "url": "{{baseUrl}}/api/status",
+          "headers": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "folder-2",
+      "name": "👥 Usuarios",
+      "items": [
+        {
+          "id": "req-4",
+          "name": "Crear Usuario",
+          "type": "http",
+          "method": "POST",
+          "url": "{{baseUrl}}/api/users",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "json",
+            "json": {
+              "email": "{{testEmail}}",
+              "name": "{{testName}}",
+              "password": "{{testPassword}}"
+            }
+          }
+        },
+        {
+          "id": "req-5",
+          "name": "Obtener Usuarios Activos",
+          "type": "http",
+          "method": "GET",
+          "url": "{{baseUrl}}/api/users/active",
+          "headers": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        {
+          "id": "req-6",
+          "name": "Obtener Usuario por ID",
+          "type": "http",
+          "method": "GET",
+          "url": "{{baseUrl}}/api/users/{{userId}}",
+          "headers": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        {
+          "id": "req-7",
+          "name": "Actualizar Nombre de Usuario",
+          "type": "http",
+          "method": "PUT",
+          "url": "{{baseUrl}}/api/users/{{userId}}/name",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "json",
+            "json": {
+              "name": "Usuario Actualizado"
+            }
+          }
+        },
+        {
+          "id": "req-8",
+          "name": "Autenticar Usuario",
+          "type": "http",
+          "method": "POST",
+          "url": "{{baseUrl}}/api/users/authenticate",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "json",
+            "json": {
+              "email": "{{testEmail}}",
+              "password": "{{testPassword}}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "folder-3",
+      "name": "📊 Salud",
+      "items": [
+        {
+          "id": "req-9",
+          "name": "Último Estado de Salud",
+          "type": "http",
+          "method": "GET",
+          "url": "{{baseUrl}}/api/health/latest",
+          "headers": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        {
+          "id": "req-10",
+          "name": "Historial de Salud (Última Semana)",
+          "type": "http",
+          "method": "GET",
+          "url": "{{baseUrl}}/api/health/history?from=2025-09-19&to=2025-09-26",
+          "headers": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        {
+          "id": "req-11",
+          "name": "Historial de Salud (Último Mes)",
+          "type": "http",
+          "method": "GET",
+          "url": "{{baseUrl}}/api/health/history?from=2025-08-26&to=2025-09-26",
+          "headers": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "folder-4",
+      "name": "🔔 Notificaciones",
+      "items": [
+        {
+          "id": "req-12",
+          "name": "Enviar Alerta Simple",
+          "type": "http",
+          "method": "POST",
+          "url": "{{baseUrl}}/api/notifications/alert",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "json",
+            "json": {
+              "message": "Sistema en mantenimiento programado"
+            }
+          }
+        },
+        {
+          "id": "req-13",
+          "name": "Enviar Alerta con Contexto",
+          "type": "http",
+          "method": "POST",
+          "url": "{{baseUrl}}/api/notifications/alert",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "json",
+            "json": {
+              "message": "Mantenimiento programado del servidor",
+              "context": {
+                "duration": "2 hours",
+                "affected_services": ["API", "Database", "Redis"],
+                "severity": "high",
+                "scheduled_time": "2025-09-26 15:00:00"
+              }
+            }
+          }
+        },
+        {
+          "id": "req-14",
+          "name": "Notificación de Prueba",
+          "type": "http",
+          "method": "POST",
+          "url": "{{baseUrl}}/api/notifications/test",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "folder-5",
+      "name": "❌ Casos de Error",
+      "items": [
+        {
+          "id": "req-15",
+          "name": "Crear Usuario (Email Inválido)",
+          "type": "http",
+          "method": "POST",
+          "url": "{{baseUrl}}/api/users",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "json",
+            "json": {
+              "email": "invalid-email",
+              "name": "Test User",
+              "password": "password123"
+            }
+          }
+        },
+        {
+          "id": "req-16",
+          "name": "Crear Usuario (Email Duplicado)",
+          "type": "http",
+          "method": "POST",
+          "url": "{{baseUrl}}/api/users",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "json",
+            "json": {
+              "email": "{{testEmail}}",
+              "name": "Another User",
+              "password": "password123"
+            }
+          }
+        },
+        {
+          "id": "req-17",
+          "name": "Obtener Usuario (No Existe)",
+          "type": "http",
+          "method": "GET",
+          "url": "{{baseUrl}}/api/users/999",
+          "headers": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        {
+          "id": "req-18",
+          "name": "Autenticar Usuario (Credenciales Incorrectas)",
+          "type": "http",
+          "method": "POST",
+          "url": "{{baseUrl}}/api/users/authenticate",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "json",
+            "json": {
+              "email": "{{testEmail}}",
+              "password": "wrongpassword"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "folder-6",
+      "name": "🧪 Tests de Rendimiento",
+      "items": [
+        {
+          "id": "req-19",
+          "name": "Health Check (Múltiples Requests)",
+          "type": "http",
+          "method": "GET",
+          "url": "{{baseUrl}}/health",
+          "headers": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        {
+          "id": "req-20",
+          "name": "Crear Usuario (Stress Test 1)",
+          "type": "http",
+          "method": "POST",
+          "url": "{{baseUrl}}/api/users",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "json",
+            "json": {
+              "email": "user1@example.com",
+              "name": "User 1",
+              "password": "password123"
+            }
+          }
+        },
+        {
+          "id": "req-21",
+          "name": "Crear Usuario (Stress Test 2)",
+          "type": "http",
+          "method": "POST",
+          "url": "{{baseUrl}}/api/users",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "json",
+            "json": {
+              "email": "user2@example.com",
+              "name": "User 2",
+              "password": "password123"
+            }
+          }
+        },
+        {
+          "id": "req-22",
+          "name": "Crear Usuario (Stress Test 3)",
+          "type": "http",
+          "method": "POST",
+          "url": "{{baseUrl}}/api/users",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "json",
+            "json": {
+              "email": "user3@example.com",
+              "name": "User 3",
+              "password": "password123"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "environments": [
+    {
+      "id": "env-1",
+      "name": "Development",
+      "variables": [
+        {
+          "name": "baseUrl",
+          "value": "http://localhost:8081"
+        },
+        {
+          "name": "testEmail",
+          "value": "test@example.com"
+        },
+        {
+          "name": "testName",
+          "value": "Test User"
+        },
+        {
+          "name": "testPassword",
+          "value": "password123"
+        },
+        {
+          "name": "userId",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "id": "env-2",
+      "name": "Production",
+      "variables": [
+        {
+          "name": "baseUrl",
+          "value": "https://api.slimseed.com"
+        },
+        {
+          "name": "testEmail",
+          "value": "test@production.com"
+        },
+        {
+          "name": "testName",
+          "value": "Production Test User"
+        },
+        {
+          "name": "testPassword",
+          "value": "production123"
+        },
+        {
+          "name": "userId",
+          "value": "1"
+        }
+      ]
+    }
+  ]
+}

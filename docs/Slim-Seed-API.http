@@ -1,0 +1,519 @@
+# Slim Seed Project - API Collection
+# Compatible con Bruno, Insomnia, VS Code REST Client y otros clientes HTTP
+
+# ===========================================
+# CONFIGURACIÓN BASE
+# ===========================================
+@baseUrl = http://localhost:8081
+@contentType = application/json
+
+# ===========================================
+# VARIABLES DE PRUEBA
+# ===========================================
+@testEmail = test@example.com
+@testName = Test User
+@testPassword = password123
+@userId = 1
+
+# ===========================================
+# ENDPOINTS PÚBLICOS
+# ===========================================
+
+### 🏠 Bienvenida
+GET {{baseUrl}}/
+Accept: {{contentType}}
+
+### 💚 Health Check
+GET {{baseUrl}}/health
+Accept: {{contentType}}
+
+### 📊 Status API
+GET {{baseUrl}}/api/status
+Accept: {{contentType}}
+
+# ===========================================
+# GESTIÓN DE USUARIOS
+# ===========================================
+
+### 👤 Crear Usuario
+POST {{baseUrl}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "email": "{{testEmail}}",
+  "name": "{{testName}}",
+  "password": "{{testPassword}}"
+}
+
+### 👤 Crear Usuario Alternativo
+POST {{baseUrl}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "email": "jane@example.com",
+  "name": "Jane Doe",
+  "password": "securepassword123"
+}
+
+### 👥 Obtener Usuarios Activos
+GET {{baseUrl}}/api/users/active
+Accept: {{contentType}}
+
+### 🔍 Obtener Usuario por ID
+GET {{baseUrl}}/api/users/{{userId}}
+Accept: {{contentType}}
+
+### 🔍 Obtener Usuario por ID (No existe)
+GET {{baseUrl}}/api/users/999
+Accept: {{contentType}}
+
+### ✏️ Actualizar Nombre de Usuario
+PUT {{baseUrl}}/api/users/{{userId}}/name
+Content-Type: {{contentType}}
+
+{
+  "name": "Usuario Actualizado"
+}
+
+### ✏️ Actualizar Nombre de Usuario (No existe)
+PUT {{baseUrl}}/api/users/999/name
+Content-Type: {{contentType}}
+
+{
+  "name": "Usuario Inexistente"
+}
+
+### 🔐 Autenticar Usuario
+POST {{baseUrl}}/api/users/authenticate
+Content-Type: {{contentType}}
+
+{
+  "email": "{{testEmail}}",
+  "password": "{{testPassword}}"
+}
+
+### 🔐 Autenticar Usuario (Credenciales Incorrectas)
+POST {{baseUrl}}/api/users/authenticate
+Content-Type: {{contentType}}
+
+{
+  "email": "{{testEmail}}",
+  "password": "wrongpassword"
+}
+
+### 🔐 Autenticar Usuario (No existe)
+POST {{baseUrl}}/api/users/authenticate
+Content-Type: {{contentType}}
+
+{
+  "email": "nonexistent@example.com",
+  "password": "{{testPassword}}"
+}
+
+# ===========================================
+# HISTORIAL DE SALUD
+# ===========================================
+
+### 📊 Último Estado de Salud
+GET {{baseUrl}}/api/health/latest
+Accept: {{contentType}}
+
+### 📈 Historial de Salud (Última Semana)
+GET {{baseUrl}}/api/health/history?from=2025-09-19&to=2025-09-26
+Accept: {{contentType}}
+
+### 📈 Historial de Salud (Último Mes)
+GET {{baseUrl}}/api/health/history?from=2025-08-26&to=2025-09-26
+Accept: {{contentType}}
+
+### 📈 Historial de Salud (Sin Parámetros)
+GET {{baseUrl}}/api/health/history
+Accept: {{contentType}}
+
+### 📈 Historial de Salud (Formato de Fecha Inválido)
+GET {{baseUrl}}/api/health/history?from=invalid-date&to=2025-09-26
+Accept: {{contentType}}
+
+# ===========================================
+# NOTIFICACIONES
+# ===========================================
+
+### 🔔 Enviar Alerta Simple
+POST {{baseUrl}}/api/notifications/alert
+Content-Type: {{contentType}}
+
+{
+  "message": "Sistema en mantenimiento programado"
+}
+
+### 🔔 Enviar Alerta con Contexto
+POST {{baseUrl}}/api/notifications/alert
+Content-Type: {{contentType}}
+
+{
+  "message": "Mantenimiento programado del servidor",
+  "context": {
+    "duration": "2 hours",
+    "affected_services": ["API", "Database", "Redis"],
+    "severity": "high",
+    "scheduled_time": "2025-09-26 15:00:00"
+  }
+}
+
+### 🔔 Enviar Alerta de Error
+POST {{baseUrl}}/api/notifications/alert
+Content-Type: {{contentType}}
+
+{
+  "message": "Error crítico en el sistema de pagos",
+  "context": {
+    "error_code": "PAYMENT_001",
+    "affected_users": 150,
+    "priority": "critical",
+    "timestamp": "2025-09-26 14:30:15"
+  }
+}
+
+### 🔔 Enviar Alerta (Sin Mensaje)
+POST {{baseUrl}}/api/notifications/alert
+Content-Type: {{contentType}}
+
+{
+  "context": {
+    "duration": "1 hour"
+  }
+}
+
+### 🧪 Notificación de Prueba
+POST {{baseUrl}}/api/notifications/test
+Content-Type: {{contentType}}
+
+### 🧪 Notificación de Prueba con Datos
+POST {{baseUrl}}/api/notifications/test
+Content-Type: {{contentType}}
+
+{
+  "subject": "Test Notification",
+  "message": "This is a test notification from Slim Seed Project"
+}
+
+# ===========================================
+# CASOS DE PRUEBA DE VALIDACIÓN
+# ===========================================
+
+### ❌ Crear Usuario (Email Inválido)
+POST {{baseUrl}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "email": "invalid-email",
+  "name": "Test User",
+  "password": "password123"
+}
+
+### ❌ Crear Usuario (Nombre Vacío)
+POST {{baseUrl}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "email": "test2@example.com",
+  "name": "",
+  "password": "password123"
+}
+
+### ❌ Crear Usuario (Contraseña Corta)
+POST {{baseUrl}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "email": "test3@example.com",
+  "name": "Test User",
+  "password": "123"
+}
+
+### ❌ Crear Usuario (Email Duplicado)
+POST {{baseUrl}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "email": "{{testEmail}}",
+  "name": "Another User",
+  "password": "password123"
+}
+
+### ❌ Crear Usuario (Sin Datos)
+POST {{baseUrl}}/api/users
+Content-Type: {{contentType}}
+
+{}
+
+### ❌ Crear Usuario (Datos Incompletos)
+POST {{baseUrl}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "email": "incomplete@example.com"
+}
+
+# ===========================================
+# CASOS DE PRUEBA DE RENDIMIENTO
+# ===========================================
+
+### 🚀 Health Check (Múltiples Requests)
+GET {{baseUrl}}/health
+Accept: {{contentType}}
+
+### 🚀 Health Check (Múltiples Requests)
+GET {{baseUrl}}/health
+Accept: {{contentType}}
+
+### 🚀 Health Check (Múltiples Requests)
+GET {{baseUrl}}/health
+Accept: {{contentType}}
+
+### 🚀 Health Check (Múltiples Requests)
+GET {{baseUrl}}/health
+Accept: {{contentType}}
+
+### 🚀 Health Check (Múltiples Requests)
+GET {{baseUrl}}/health
+Accept: {{contentType}}
+
+# ===========================================
+# CASOS DE PRUEBA DE ESTRÉS
+# ===========================================
+
+### 🔥 Crear Múltiples Usuarios
+POST {{baseUrl}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "email": "user1@example.com",
+  "name": "User 1",
+  "password": "password123"
+}
+
+### 🔥 Crear Múltiples Usuarios
+POST {{baseUrl}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "email": "user2@example.com",
+  "name": "User 2",
+  "password": "password123"
+}
+
+### 🔥 Crear Múltiples Usuarios
+POST {{baseUrl}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "email": "user3@example.com",
+  "name": "User 3",
+  "password": "password123"
+}
+
+### 🔥 Crear Múltiples Usuarios
+POST {{baseUrl}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "email": "user4@example.com",
+  "name": "User 4",
+  "password": "password123"
+}
+
+### 🔥 Crear Múltiples Usuarios
+POST {{baseUrl}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "email": "user5@example.com",
+  "name": "User 5",
+  "password": "password123"
+}
+
+# ===========================================
+# CASOS DE PRUEBA DE CONCURRENCIA
+# ===========================================
+
+### ⚡ Actualizar Usuario (Concurrente 1)
+PUT {{baseUrl}}/api/users/{{userId}}/name
+Content-Type: {{contentType}}
+
+{
+  "name": "Concurrent Update 1"
+}
+
+### ⚡ Actualizar Usuario (Concurrente 2)
+PUT {{baseUrl}}/api/users/{{userId}}/name
+Content-Type: {{contentType}}
+
+{
+  "name": "Concurrent Update 2"
+}
+
+### ⚡ Actualizar Usuario (Concurrente 3)
+PUT {{baseUrl}}/api/users/{{userId}}/name
+Content-Type: {{contentType}}
+
+{
+  "name": "Concurrent Update 3"
+}
+
+# ===========================================
+# CASOS DE PRUEBA DE SEGURIDAD
+# ===========================================
+
+### 🔒 SQL Injection Test
+GET {{baseUrl}}/api/users/1'; DROP TABLE users; --
+Accept: {{contentType}}
+
+### 🔒 XSS Test
+POST {{baseUrl}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "email": "test@example.com",
+  "name": "<script>alert('XSS')</script>",
+  "password": "password123"
+}
+
+### 🔒 Path Traversal Test
+GET {{baseUrl}}/api/users/../../../etc/passwd
+Accept: {{contentType}}
+
+### 🔒 Large Payload Test
+POST {{baseUrl}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "email": "test@example.com",
+  "name": "A".repeat(10000),
+  "password": "password123"
+}
+
+# ===========================================
+# CASOS DE PRUEBA DE HEADERS
+# ===========================================
+
+### 📋 Request con Headers Personalizados
+GET {{baseUrl}}/health
+Accept: {{contentType}}
+X-Custom-Header: Test-Value
+X-Request-ID: 12345
+User-Agent: Slim-Seed-Test-Client/1.0
+
+### 📋 Request con Content-Type Incorrecto
+POST {{baseUrl}}/api/users
+Content-Type: text/plain
+
+email=test@example.com&name=Test User&password=password123
+
+### 📋 Request sin Content-Type
+POST {{baseUrl}}/api/users
+
+{
+  "email": "test@example.com",
+  "name": "Test User",
+  "password": "password123"
+}
+
+# ===========================================
+# CASOS DE PRUEBA DE MÉTODOS HTTP
+# ===========================================
+
+### 🚫 Método No Permitido (DELETE en Health)
+DELETE {{baseUrl}}/health
+Accept: {{contentType}}
+
+### 🚫 Método No Permitido (PATCH en Users)
+PATCH {{baseUrl}}/api/users/1
+Content-Type: {{contentType}}
+
+{
+  "name": "Updated Name"
+}
+
+### 🚫 Método No Permitido (OPTIONS)
+OPTIONS {{baseUrl}}/api/users
+Accept: {{contentType}}
+
+# ===========================================
+# CASOS DE PRUEBA DE CÓDIGOS DE ESTADO
+# ===========================================
+
+### ✅ 200 OK
+GET {{baseUrl}}/health
+Accept: {{contentType}}
+
+### ✅ 201 Created
+POST {{baseUrl}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "email": "newuser@example.com",
+  "name": "New User",
+  "password": "password123"
+}
+
+### ❌ 400 Bad Request
+POST {{baseUrl}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "email": "invalid-email",
+  "name": "Test User",
+  "password": "password123"
+}
+
+### ❌ 401 Unauthorized
+POST {{baseUrl}}/api/users/authenticate
+Content-Type: {{contentType}}
+
+{
+  "email": "test@example.com",
+  "password": "wrongpassword"
+}
+
+### ❌ 404 Not Found
+GET {{baseUrl}}/api/users/999
+Accept: {{contentType}}
+
+### ❌ 405 Method Not Allowed
+DELETE {{baseUrl}}/health
+Accept: {{contentType}}
+
+### ❌ 500 Internal Server Error
+# Este caso se puede simular con un endpoint que genere error interno
+GET {{baseUrl}}/api/error
+Accept: {{contentType}}
+
+# ===========================================
+# NOTAS DE USO
+# ===========================================
+
+# 1. Asegúrate de que el servidor esté ejecutándose en http://localhost:8081
+# 2. Ejecuta las migraciones antes de probar los endpoints de usuarios
+# 3. Algunos tests requieren que existan usuarios en la base de datos
+# 4. Los tests de concurrencia pueden mostrar comportamientos interesantes
+# 5. Los tests de seguridad están diseñados para verificar que la API sea robusta
+# 6. Usa las variables @testEmail, @testName, @testPassword para personalizar las pruebas
+# 7. El @userId se actualiza automáticamente cuando creas un usuario
+# 8. Algunos endpoints pueden requerir autenticación en futuras versiones
+
+# ===========================================
+# COMANDOS ÚTILES
+# ===========================================
+
+# Verificar que el servidor esté funcionando:
+# curl http://localhost:8081/health
+
+# Ejecutar migraciones:
+# docker-compose exec -T app bash -c "cd /var/www/html && php scripts/migrate.php"
+
+# Ver logs del servidor:
+# docker-compose logs -f app
+
+# Reiniciar el servidor:
+# docker-compose restart app

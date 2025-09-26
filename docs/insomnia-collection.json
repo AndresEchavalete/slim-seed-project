@@ -1,0 +1,550 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-09-26T13:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "req_1",
+      "parentId": "fld_1",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "url": "{{ _.baseUrl }}/",
+      "name": "🏠 Bienvenida",
+      "description": "Mensaje de bienvenida del proyecto",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1695736800000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_2",
+      "parentId": "fld_1",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "url": "{{ _.baseUrl }}/health",
+      "name": "💚 Health Check",
+      "description": "Verificación del estado de salud del sistema",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1695736800000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_3",
+      "parentId": "fld_1",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "url": "{{ _.baseUrl }}/api/status",
+      "name": "📊 Status API",
+      "description": "Estado de la API",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1695736800000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_4",
+      "parentId": "fld_2",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "url": "{{ _.baseUrl }}/api/users",
+      "name": "👤 Crear Usuario",
+      "description": "Crear un nuevo usuario en el sistema",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"{{ _.testEmail }}\",\n  \"name\": \"{{ _.testName }}\",\n  \"password\": \"{{ _.testPassword }}\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1695736800000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_5",
+      "parentId": "fld_2",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "url": "{{ _.baseUrl }}/api/users/active",
+      "name": "👥 Obtener Usuarios Activos",
+      "description": "Obtener todos los usuarios activos",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1695736800000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_6",
+      "parentId": "fld_2",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "url": "{{ _.baseUrl }}/api/users/{{ _.userId }}",
+      "name": "🔍 Obtener Usuario por ID",
+      "description": "Obtener un usuario específico por su ID",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1695736800000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_7",
+      "parentId": "fld_2",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "url": "{{ _.baseUrl }}/api/users/{{ _.userId }}/name",
+      "name": "✏️ Actualizar Nombre de Usuario",
+      "description": "Actualizar el nombre de un usuario",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Usuario Actualizado\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1695736800000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_8",
+      "parentId": "fld_2",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "url": "{{ _.baseUrl }}/api/users/authenticate",
+      "name": "🔐 Autenticar Usuario",
+      "description": "Autenticar un usuario con email y contraseña",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"{{ _.testEmail }}\",\n  \"password\": \"{{ _.testPassword }}\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1695736800000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_9",
+      "parentId": "fld_3",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "url": "{{ _.baseUrl }}/api/health/latest",
+      "name": "📊 Último Estado de Salud",
+      "description": "Obtener el último estado de salud registrado",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1695736800000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_10",
+      "parentId": "fld_3",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "url": "{{ _.baseUrl }}/api/health/history",
+      "name": "📈 Historial de Salud",
+      "description": "Obtener historial de estados de salud por fechas",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "name": "from",
+          "value": "2025-09-19",
+          "description": "Fecha de inicio (YYYY-MM-DD)"
+        },
+        {
+          "name": "to",
+          "value": "2025-09-26",
+          "description": "Fecha de fin (YYYY-MM-DD)"
+        }
+      ],
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1695736800000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_11",
+      "parentId": "fld_4",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "url": "{{ _.baseUrl }}/api/notifications/alert",
+      "name": "🔔 Enviar Alerta",
+      "description": "Enviar una alerta manual al sistema",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"message\": \"Sistema en mantenimiento programado\",\n  \"context\": {\n    \"duration\": \"2 hours\",\n    \"affected_services\": [\"API\", \"Database\", \"Redis\"],\n    \"severity\": \"high\"\n  }\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1695736800000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_12",
+      "parentId": "fld_4",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "url": "{{ _.baseUrl }}/api/notifications/test",
+      "name": "🧪 Notificación de Prueba",
+      "description": "Enviar una notificación de prueba",
+      "method": "POST",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1695736800000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_13",
+      "parentId": "fld_5",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "url": "{{ _.baseUrl }}/api/users",
+      "name": "❌ Crear Usuario (Email Inválido)",
+      "description": "Test de validación con email inválido",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"invalid-email\",\n  \"name\": \"Test User\",\n  \"password\": \"password123\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1695736800000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_14",
+      "parentId": "fld_5",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "url": "{{ _.baseUrl }}/api/users/999",
+      "name": "❌ Obtener Usuario (No Existe)",
+      "description": "Test de error 404 con usuario inexistente",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1695736800000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_1",
+      "parentId": "wrk_1",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "name": "🏠 Públicos",
+      "description": "Endpoints públicos del sistema",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1695736800000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_2",
+      "parentId": "wrk_1",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "name": "👥 Usuarios",
+      "description": "Gestión de usuarios del sistema",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1695736800000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_3",
+      "parentId": "wrk_1",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "name": "📊 Salud",
+      "description": "Monitoreo de salud del sistema",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1695736800000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_4",
+      "parentId": "wrk_1",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "name": "🔔 Notificaciones",
+      "description": "Sistema de notificaciones",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1695736800000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_5",
+      "parentId": "wrk_1",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "name": "❌ Casos de Error",
+      "description": "Tests de validación y manejo de errores",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1695736800000,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_1",
+      "parentId": null,
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "name": "Slim Seed Project API",
+      "description": "Colección de requests para la API del Slim Seed Project",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_1",
+      "parentId": "wrk_1",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "name": "Base Environment",
+      "data": {
+        "baseUrl": "http://localhost:8081",
+        "testEmail": "test@example.com",
+        "testName": "Test User",
+        "testPassword": "password123",
+        "userId": "1"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "baseUrl",
+          "testEmail",
+          "testName",
+          "testPassword",
+          "userId"
+        ]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1695736800000,
+      "_type": "environment"
+    },
+    {
+      "_id": "env_2",
+      "parentId": "wrk_1",
+      "modified": 1695736800000,
+      "created": 1695736800000,
+      "name": "Production",
+      "data": {
+        "baseUrl": "https://api.slimseed.com",
+        "testEmail": "test@production.com",
+        "testName": "Production Test User",
+        "testPassword": "production123",
+        "userId": "1"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "baseUrl",
+          "testEmail",
+          "testName",
+          "testPassword",
+          "userId"
+        ]
+      },
+      "color": "#ff6b6b",
+      "isPrivate": false,
+      "metaSortKey": 1695736800000,
+      "_type": "environment"
+    }
+  ]
+}
