@@ -1,22 +1,19 @@
-#!/usr/bin/env php
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Doctrine\DBAL\DriverManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMSetup;
 use SlimSeed\Infrastructure\Config\DoctrineConfig;
 
 // Cargar variables de entorno
 if (file_exists(__DIR__ . '/../.env')) {
-    $lines = file(__DIR__ . '/../.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
-        if (strpos(trim($line), '#') === 0) continue;
-        list($name, $value) = explode('=', $line, 2);
-        $_ENV[trim($name)] = trim($value);
-    }
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+    $dotenv->load();
 }
 
-echo "⚠️  Resetting database...\n\n";
+echo "🔄 Reseteando base de datos...\n";
 
 try {
     // Configuración de Doctrine
@@ -29,24 +26,23 @@ try {
         'debug' => $_ENV['APP_DEBUG'] ?? false,
     ]);
 
-    $connection = $doctrineConfig->createConnection();
+    $entityManager = $doctrineConfig->createEntityManager();
 
-    // Eliminar todas las tablas
-    $tables = ['health_status', 'users', 'doctrine_migration_versions'];
+    // Eliminar esquema de base de datos
+    $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($entityManager);
+    $classes = [
+        $entityManager->getClassMetadata(\SlimSeed\Infrastructure\Persistence\Doctrine\HealthStatusEntity::class),
+        $entityManager->getClassMetadata(\SlimSeed\Infrastructure\Persistence\Doctrine\UserEntity::class),
+    ];
+
+    $schemaTool->dropSchema($classes);
+    echo "✅ Base de datos reseteada correctamente!\n";
     
-    foreach ($tables as $table) {
-        try {
-            $connection->executeStatement("DROP TABLE IF EXISTS `$table`");
-            echo "🗑️  Dropped table: $table\n";
-        } catch (Exception $e) {
-            echo "⚠️  Could not drop table $table: " . $e->getMessage() . "\n";
-        }
-    }
-
-    echo "\n✅ Database reset completed!\n";
-    echo "💡 Run 'php scripts/migrate.php' to recreate the schema.\n";
-
+    // Recrear esquema
+    $schemaTool->createSchema($classes);
+    echo "✅ Esquema recreado correctamente!\n";
+    
 } catch (Exception $e) {
-    echo "❌ Error during reset: " . $e->getMessage() . "\n";
+    echo "❌ Error reseteando base de datos: " . $e->getMessage() . "\n";
     exit(1);
 }

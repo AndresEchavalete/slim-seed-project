@@ -39,9 +39,16 @@
         }
     },
     "scripts": {
-        "migrate": "php vendor/bin/doctrine-migrations migrate",
-        "migrate:status": "php vendor/bin/doctrine-migrations status",
-        "migrate:generate": "php vendor/bin/doctrine-migrations generate",
-        "migrate:execute": "php vendor/bin/doctrine-migrations execute"
+        "post-install-cmd": [
+            "SlimSeed\\Installer\\Installer::postInstall"
+        ],
+        "post-update-cmd": [
+            "SlimSeed\\Installer\\Installer::postUpdate"
+        ],
+        "migrate": "php vendor/bin/doctrine-migrations migrate --configuration=migrations-db.php",
+        "migrate:status": "php vendor/bin/doctrine-migrations status --configuration=migrations-db.php",
+        "migrate:generate": "php vendor/bin/doctrine-migrations generate --configuration=migrations-db.php",
+        "migrate:execute": "php vendor/bin/doctrine-migrations execute --configuration=migrations-db.php",
+        "setup": "SlimSeed\\Installer\\Installer::setupProject"
     }
 }

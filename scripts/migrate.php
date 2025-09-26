@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -10,15 +9,11 @@ use SlimSeed\Infrastructure\Config\DoctrineConfig;
 
 // Cargar variables de entorno
 if (file_exists(__DIR__ . '/../.env')) {
-    $lines = file(__DIR__ . '/../.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
-        if (strpos(trim($line), '#') === 0) continue;
-        list($name, $value) = explode('=', $line, 2);
-        $_ENV[trim($name)] = trim($value);
-    }
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+    $dotenv->load();
 }
 
-echo "🚀 Running Doctrine Migrations...\n\n";
+echo "🚀 Ejecutando migraciones...\n";
 
 try {
     // Configuración de Doctrine
@@ -40,19 +35,10 @@ try {
         $entityManager->getClassMetadata(\SlimSeed\Infrastructure\Persistence\Doctrine\UserEntity::class),
     ];
 
-    echo "📋 Creating database schema...\n";
     $schemaTool->createSchema($classes);
-    echo "✅ Database schema created successfully!\n\n";
-
-    echo "📊 Schema includes:\n";
-    echo "   - health_status table\n";
-    echo "   - users table\n";
-    echo "   - doctrine_migration_versions table\n\n";
-
-    echo "🎉 Migration completed successfully!\n";
-
+    echo "✅ Migraciones ejecutadas correctamente!\n";
+    
 } catch (Exception $e) {
-    echo "❌ Error during migration: " . $e->getMessage() . "\n";
-    echo "Stack trace:\n" . $e->getTraceAsString() . "\n";
+    echo "❌ Error ejecutando migraciones: " . $e->getMessage() . "\n";
     exit(1);
 }

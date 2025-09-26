@@ -7,6 +7,12 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use SlimSeed\Infrastructure\Config\DoctrineConfig;
 
+// Cargar variables de entorno
+if (file_exists(__DIR__ . '/.env')) {
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+}
+
 // Configuración de Doctrine
 $doctrineConfig = new DoctrineConfig([
     'host' => $_ENV['DB_HOST'] ?? 'mysql',
