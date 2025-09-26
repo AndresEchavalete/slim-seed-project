@@ -92,22 +92,42 @@ cd mi-api
 composer init
 
 # 3. Instalar SlimSeed Framework
-composer require slimseed/framework
+composer require slimseed/framework:^0.2.2-beta
 
-# 4. Instalación simple (opcional)
-php vendor/slimseed/framework/tools/simple-installer.php
+# 4. Ejecutar instalador automático
+php vendor/slimseed/framework/install.php
 
-# 5. Configurar variables
-cp .env.example .env
+# 5. Configurar variables (opcional)
 nano .env
 
-# 6. Ejecutar migraciones
+# 6. Iniciar con Docker
+docker-compose up -d
+
+# 7. Ejecutar migraciones
 composer run migrate
 
-# 7. Iniciar servidor
+# 8. Visitar: http://localhost:8081
+```
+
+### **🚀 Instalación Rápida (Sin Docker)**
+
+```bash
+# 1. Instalar paquete
+composer require slimseed/framework:^0.2.2-beta
+
+# 2. Ejecutar instalador
+php vendor/slimseed/framework/install.php
+
+# 3. Configurar base de datos en .env
+nano .env
+
+# 4. Ejecutar migraciones
+composer run migrate
+
+# 5. Iniciar servidor local
 php -S localhost:8000 -t public
 
-# 8. Visitar: http://localhost:8000
+# 6. Visitar: http://localhost:8000
 ```
 
 ### **🔧 Desarrollo del Framework (Para Contribuidores)**
