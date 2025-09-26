@@ -230,14 +230,14 @@ Obtiene el historial de estados de salud por rango de fechas.
 
 **Ejemplo:**
 ```
-GET /api/health/history?from=2024-01-01&to=2024-01-31
+GET /api/health/history?from=2025-09-01&to=2025-09-30
 ```
 
 **Respuesta:**
 ```json
 {
-  "from": "2024-01-01 00:00:00",
-  "to": "2024-01-31 23:59:59",
+  "from": "2025-09-01 00:00:00",
+  "to": "2025-09-30 23:59:59",
   "count": 2,
   "history": [
     {

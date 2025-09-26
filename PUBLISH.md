@@ -59,7 +59,7 @@ El archivo `composer.json` ya está configurado correctamente:
 cat > LICENSE << 'EOF'
 MIT License
 
-Copyright (c) 2024 SlimSeed Framework
+Copyright (c) 2025 SlimSeed Framework
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -90,7 +90,7 @@ cat > CHANGELOG.md << 'EOF'
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.0] - 2024-01-01
+## [1.0.0] - 2025-09-26
 
 ### Added
 - Arquitectura hexagonal completa

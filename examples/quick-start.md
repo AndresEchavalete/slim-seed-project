@@ -99,7 +99,7 @@ curl http://localhost:8081/
 #   "version": "1.0.0",
 #   "architecture": "DDD + Hexagonal",
 #   "framework": "Slim 4 + DI Container",
-#   "timestamp": "2024-01-01 12:00:00"
+#   "timestamp": "2025-09-26 14:00:00"
 # }
 
 # Probar health check

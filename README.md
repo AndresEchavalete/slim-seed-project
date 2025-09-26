@@ -254,7 +254,7 @@ GET /api/health/latest
 
 #### **Historial por Fechas**
 ```http
-GET /api/health/history?from=2024-01-01&to=2024-01-31
+GET /api/health/history?from=2025-09-01&to=2025-09-30
 ```
 
 ### **🔔 Notificaciones**
